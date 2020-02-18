@@ -1,24 +1,23 @@
 #' Row-Based Functions for R Objects
 #'
 #' Provides utilities which interact with all R objects as
-#' if they were arranged in rows.  It allows more consistent and predictable 
+#' if they were arranged in rows.  It allows more consistent and predictable
 #' output to common functions, and generalizes a number of utility functions to
 #' to be failsafe with any number and type of input objects.
 #' @seealso https://github.com/cran/rowr
 #' @source https://github.com/cran/rowr/blob/master/R/rowr.R
 
 #' Vectorize a scalar function to work on any R object.
-#' 
-#' Robust alternative to \code{\link{Vectorize}} function that accepts any function with two 
-#' or more arguments.  Returns a function that will work an arbitrary number of vectors, lists or 
-#' data frames, though output may be unpredicatable in unusual applications.  The 
+#'
+#' Robust alternative to \code{\link{Vectorize}} function that accepts any function with two
+#' or more arguments.  Returns a function that will work an arbitrary number of vectors, lists or
+#' data frames, though output may be unpredicatable in unusual applications.  The
 #' results are also intended to be more intuitive than Vectorize.
-#' 
+#'
 #' @param fun a two or more argument function
 #' @param type like \code{MARGIN} in \code{\link{apply}}, except that \code{c(1,2)} is
 #'   represented as a \code{3} instead.  By default, will \code{Reduce} single dimensional
 #'   data handle everything else row-wise.
-#' @export
 #' @examples
 #' vectorize(`+`)(c(1,2,3))
 #' vectorize(sum)(c(1,2,3),c(1,2,3))
@@ -49,7 +48,7 @@ vectorize<-function(fun,type=NULL)
       apply(cols,margin,function (x) Reduce(fun,unlist(x)))
     else
       Reduce(fun,unlist(cols))
-  }  
+  }
 }
 
 
@@ -80,18 +79,18 @@ buffer<-function(x,length.out=len(x),fill=NULL,preserveClass=TRUE)
   }
   if(preserveClass)
     results<-as2(results,xclass)
-  return(results)   
+  return(results)
 }
 
 
 #' Combine arbitrary data types, filling in missing rows.
-#' 
+#'
 #' Robust alternative to \code{\link{cbind}} that fills missing values and works
 #' on arbitrary data types.  Combines any number of R objects into a single matrix, with each input
 #' corresponding to the greater of 1 or ncol.  \code{cbind} has counterintuitive
 #' results when working with lists, cannot handle certain inputs of differing
 #' length, and does not allow the fill to be specified.
-#' 
+#'
 #' @param ... any number of R data objects
 #' @param fill R object to fill empty rows in columns below the max size.  If unspecified, repeats input rows in the same way as \code{cbind}. Passed to \code{\link{buffer}}.
 #' @export
@@ -152,11 +151,11 @@ len <- function(data)
 
 
 #' A more versatile form of the T-SQL \code{coalesce()} function.
-#' 
-#' Little more than a wrapper for \code{\link{vectorize}}, allows for 
-#' duplication of SQL coalesce functionality, certain types of if-else 
+#'
+#' Little more than a wrapper for \code{\link{vectorize}}, allows for
+#' duplication of SQL coalesce functionality, certain types of if-else
 #' statements, and \code{\link{apply}}/\code{\link{Reduce}} combinations.
-#' 
+#'
 #' @param ... an arbitrary number of \code{R} objects
 #' @param fun a two argument function that returns an atomic value
 #' @export
@@ -179,7 +178,7 @@ coalesce<-function(...,fun=(function (x,y) if(!is.na(x)) x else y))
 
 #'A more versatile form of the T-SQL \code{count()} function.
 #'
-#'Implementation of T-SQL \code{count} and Excel \code{COUNTIF} functions. 
+#'Implementation of T-SQL \code{count} and Excel \code{COUNTIF} functions.
 #'Shows the total number of elements in any number of data objects altogether or
 #'that match a condition.
 #'
@@ -285,7 +284,7 @@ insertRows <- function(existing, insert, r) {
 
 #'A more robust form of the R \code{\link{as}} function.
 #'
-#' Alternative to \code{as} that allows any data object to be converted to any other.  
+#' Alternative to \code{as} that allows any data object to be converted to any other.
 #'
 #'@param object any \code{R} object
 #'@param class the name of the class to which \code{object} should be coerced
@@ -306,6 +305,6 @@ vert<-function(object)
   if(is.list(object))
     object<-cbind(object)
   object<-data.frame(object)
-  
+
   return(object)
 }
