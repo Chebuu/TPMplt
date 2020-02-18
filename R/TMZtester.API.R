@@ -15,7 +15,7 @@
 #' @param startrow An integer to ignore the prefix rows for testing conditions. Default
 #' value is 29.
 #'
-#' @import rowr VBTree utils stats
+#' @import VBTree utils stats
 #' @return A matrix-like summary table for all input files.
 #' @export API4TMZ
 #'
@@ -65,7 +65,7 @@ API4TMZ <- function(Cdl, wd=getwd(), ftype=".csv", Straincln=7, Stresscln=8, sta
       temp_data <- apply(temp_data, 2, as.numeric)
       temp_clnnames <- c(paste("Strain", name[i], sep = "-"), paste("Stress", name[i], sep = "-"))
       clnnames <- append(clnnames, temp_clnnames)
-      data <- rowr::cbind.fill(data, temp_data)
+      data <- cbind.fill(data, temp_data)
     }
     data <- data[,-c(1:2)] # Delete initial temp data
     colnames(data) <- clnnames
